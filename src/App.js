@@ -1,25 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import TodoList from "./components/todoList";
+import InputBox from "./components/inputBox";
+
+
+class App extends Component {
+  state = { 
+    todos: [ {id:1, todo:"itachi"}, {id:2, todo:"hashirama"} , {id:3, todo:"kakashi"}, {id:4, todo:"madara"}]
+   }
+   handleDelete = (id) => {
+      let filteredObj = this.state.todos.filter( todo => {
+        return todo.id !== id;
+      })
+      this.setState(
+        {todos: filteredObj}
+      )
+   }
+   addTodo = (obj) => {
+      this.setState({
+        todos: [...this.state.todos, {id:this.state.todos.length + 1, todo:obj} ]
+      })
+   }
+  render() { 
+    return (
+      <React.Fragment>
+        <InputBox addTodo = {this.addTodo}/>
+        <TodoList todoList = {this.state.todos} handleDelete = {this.handleDelete} />
+      </React.Fragment>
+      );
+  }
 }
-
+ 
 export default App;
